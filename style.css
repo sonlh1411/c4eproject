@@ -2,6 +2,7 @@
 img {
     width: 100px;
     height: 120px;
+    border-radius: 10px
 }
 
 .card-back, .card-front {
@@ -16,19 +17,58 @@ img {
 .card {
     transform: rotateY(180deg);
     transform-style: preserve-3d;
-    transition: all 1.5s;
+    transition: all 1s;
     width: 100px;
     height: 120px;
-    align-items: center
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px
+}
+.card-container {
+    width: 100px;
+    height: 120px;
+    align-items: center;
 }
 
 .play-area {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 10px;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 20px;
     justify-content: center
 }
 
-.hidden {
-    transform: rotateY(0deg)
+body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
+
+.header-container {
+    padding: 2em;
+    margin: 0em;
+    text-align: center;
+    color: aqua;
+    font-family:cursive;
+    background: rgba(0,0,0,0.7);
+    background-blend-mode: darken;
+}
+
+.gameplay-container {
+    padding: 2em;
+    margin: 0em;
+}
+
+.new-game{
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    width: 120px;
+    background-image: linear-gradient(#4f7593, #D6ECFA);
+    font-family: cursive;
+    font-weight: bold;
+    font-size: 16px;
+    color: #2e2a2a
+}
+
+
