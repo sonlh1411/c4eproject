@@ -2,6 +2,7 @@
 img {
     width: 100px;
     height: 120px;
+    border-radius: 10px
 }
 
 .card-back, .card-front {
@@ -16,19 +17,183 @@ img {
 .card {
     transform: rotateY(180deg);
     transform-style: preserve-3d;
-    transition: all 1.5s;
+    transition: all 1s;
     width: 100px;
     height: 120px;
-    align-items: center
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px
+}
+.card-container {
+    width: 100px;
+    height: 120px;
+    align-items: center;
 }
 
 .play-area {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 10px;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 20px;
     justify-content: center
 }
 
+body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.header-container {
+    padding: 2em;
+    margin: 0em;
+    text-align: center;
+    color: aqua;
+    font-family:cursive;
+    background: rgba(0,0,0,0.7);
+    background-blend-mode: darken;
+}
+
+.gameplay-container {
+    padding: 2em;
+    margin: 0em;
+    height: 550px;
+}
+
+.new-game, .give-up, .open-leaderboard{
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    width: 120px;
+    background-image: linear-gradient(#4f7593, #D6ECFA);
+    font-family: cursive;
+    font-weight: bold;
+    font-size: 16px;
+    color: #2e2a2a;
+    margin: 0em 0.5em
+}
+
+.submitName{
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 90px;
+    background-image: linear-gradient(#4f7593, #D6ECFA);
+    font-family: cursive;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2e2a2a;
+}
+
+.leaderboard {
+    display: none;
+    position: fixed;
+    width: 500px;
+    max-width: 80%;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    z-index: 10;
+    border: 10px solid #fc2323;
+    border-radius: 10px;
+}
+
+.header-leaderboard {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 1em;
+    background-color: #BDD1D8;
+    border-bottom: 1px solid black;
+}
+
+.table-name {
+    background-color: #BDD1D8;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+}
+
+.leaderboard-container {
+    max-width: 100%;
+}
+
+table{
+    width: 100%;
+    grid-gap: 0px;
+    border-spacing: 0px;
+}
+
+td {
+    width: 25%;
+    height: 50px;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+.no {
+    width: 10%
+}
+
+.closeButton {
+    cursor: pointer;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    height: 30px
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    transform: translateX(180px)
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    background-color: rgba(0,0,0,0.7);
+    pointer-events: none;
+}
+
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.leaderboard.active {
+    display: block;
+}
+
 .hidden {
-    transform: rotateY(0deg)
+    display: none
+}
+
+.current-rank {
+    background-color: yellow
+}
+
+@keyframes ins{
+    0% { color: #f53af5;  } 
+    50% { color: #fff;  }
+    100% { color: #f53af5;  } 
+}
+
+.instruction {
+    animation: ins 2s infinite;
+    font-size: 22px
+}
+
+#username {
+    width: 200px;
+    height: 25px;
+    border-radius: 5px;
 }
