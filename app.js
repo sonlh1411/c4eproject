@@ -85,6 +85,7 @@ const UIController = {
         var timeRemain = setInterval(function(){
             document.querySelector(".time").textContent = timeLeft
             if(timeLeft === 0){
+                alert("Time out")
                 clearInterval(timeRemain)
                 AppController.giveUp()
             }
@@ -199,8 +200,8 @@ const LogicController = {
             case 3:
                 if(LogicController.dataCollected.cardMatched===12){
                     LogicController.dataCollected.level+=1
-                    AppController.giveUp()
                     alert("You won the game")
+                    AppController.giveUp()
                 };
         }
     },
@@ -248,16 +249,14 @@ const LogicController = {
     playerDataCollect: function(){
         if(localStorage.numberPlayer){
             localStorage.numberPlayer++
-            console.log(localStorage.numberPlayer)
         }else{
             localStorage.numberPlayer=1
             localStorage.setItem("playerData","[]")
-            console.log(localStorage.numberPlayer)
         }
         var playerID=localStorage.numberPlayer
         var playerName=document.querySelector(".name").textContent
         var timeCost=300-Number(document.querySelector(".time").textContent)
-        var level=document.querySelector(".level").textContent
+        var level=LogicController.dataCollected.level
         return {
             playerID: playerID,
             name: playerName,
@@ -282,7 +281,6 @@ const LogicController = {
     
     addLeaderboardData: function(){
         playerArr=this.sortPlayer()
-        console.log(playerArr)
         for(i=1;i<=playerArr.length&&i<=5;i++){
             document.querySelector("#no"+i+"-name").innerHTML = playerArr[i-1].name
             document.querySelector("#no"+i+"-time").innerHTML = playerArr[i-1].time
