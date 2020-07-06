@@ -1,10 +1,27 @@
 const AppController = {
     start: function(){
+        //click on submit name
+        const enterName = document.querySelector(".submitName")
+        enterName.addEventListener("click",UIController.enterName)
+        enterName.addEventListener("click",this.createNewGame)
+        //open leaderboard
+        const openBoard = document.querySelector(".open-leaderboard")
+        openBoard.addEventListener("click",UIController.openLeaderboard)
+        //close leaderboard
+        const closeBoard = document.querySelector(".closeButton")
+        closeBoard.addEventListener("click",this.closeLeaderboard)
+    },
+    
+    clickPosition: function(){
+        //click on card
         const cardClick = document.querySelector(".play-area")
-        const newGame = document.querySelector(".new-game")
         cardClick.addEventListener("click",this.onClick)
+        //click on newgame
+        const newGame = document.querySelector(".new-game")
         newGame.addEventListener("click",this.createNewGame)
-        UIController.timeCountdown(120)
+        //give up button
+        const giveUp = document.querySelector(".give-up")
+        giveUp.addEventListener("click",this.giveUp)
     },
     
     onClick: function(event){
@@ -22,17 +39,40 @@ const AppController = {
     },
     
     createNewGame: function(){
+        UIController.displayChange()
         LogicController.resetCardAdded()
         LogicController.resetData()
         LogicController.resetCard()
         setTimeout(function(){
             LogicController.changeCardPosition()   
         },600)
-        UIController.timeCountdown(120)
+        UIController.timeCountdown(300)
+        document.querySelector(".level").textContent=1
+    },
+    
+    closeLeaderboard: function(){
+        var leaderboard=document.querySelector(".leaderboard").classList
+        var overlay=document.querySelector(".overlay").classList
+        leaderboard.remove("active")
+        overlay.remove("active")
+    },
+    
+    giveUp: function(){
+        LogicController.addLeaderboardData()
+        LogicController.addCurrentData()
+        UIController.openLeaderboard()
+        document.querySelector(".play-area").classList.add("hidden")
+        document.querySelector(".give-up").classList.add("hidden")
     }
 }
 
 const UIController = {
+    enterName: function(){
+        AppController.clickPosition()
+        var playerName=document.querySelector("#username").value
+        document.querySelector(".name").textContent=playerName
+    },
+    
     flipUp: function(id){
         id.style.transform = "rotateY(0deg)"
     },
@@ -43,17 +83,27 @@ const UIController = {
     
     timeCountdown: function(timeLeft){
         var timeRemain = setInterval(function(){
-            timeLeft--
             document.querySelector(".time").textContent = timeLeft
             if(timeLeft === 0){
+                alert("Time out")
                 clearInterval(timeRemain)
-                alert("Hết Giờ")
+                AppController.giveUp()
             }
+            timeLeft--
         },1000)
         document.querySelector(".new-game").addEventListener("click",stop)
+        document.querySelector(".give-up").addEventListener("click",stop)
+        document.querySelector(".submitName").addEventListener("click",stop)
         function stop(){
             clearInterval(timeRemain)
         }
+    },
+    
+    displayChange: function(){
+        document.querySelector(".play-area").classList.remove("hidden")
+        document.querySelector(".give-up").classList.remove("hidden")
+        document.querySelector(".game-button").classList.remove("hidden")
+        document.querySelector(".instruction").classList.add("hidden")
     },
     
     nextLevel: function(level){
@@ -79,6 +129,13 @@ const UIController = {
                 document.querySelector(".level").textContent=level
                 break;
         }
+    },
+    
+    openLeaderboard: function(){
+        var leaderboard=document.querySelector(".leaderboard").classList
+        var overlay=document.querySelector(".overlay").classList
+        leaderboard.add("active")
+        overlay.add("active")
     },
 }
 
@@ -142,7 +199,9 @@ const LogicController = {
                 
             case 3:
                 if(LogicController.dataCollected.cardMatched===12){
+                    LogicController.dataCollected.level+=1
                     alert("You won the game")
+                    AppController.giveUp()
                 };
         }
     },
@@ -185,7 +244,58 @@ const LogicController = {
             var removeCardAdded=document.querySelector("#"+"card"+i).parentNode
             removeCardAdded.parentNode.removeChild(removeCardAdded)
         }
+    },
+    
+    playerDataCollect: function(){
+        if(localStorage.numberPlayer){
+            localStorage.numberPlayer++
+        }else{
+            localStorage.numberPlayer=1
+            localStorage.setItem("playerData","[]")
+        }
+        var playerID=localStorage.numberPlayer
+        var playerName=document.querySelector(".name").textContent
+        var timeCost=300-Number(document.querySelector(".time").textContent)
+        var level=LogicController.dataCollected.level
+        return {
+            playerID: playerID,
+            name: playerName,
+            time: timeCost,
+            level: Number(level)-1
+        }
+    },
+    
+    addLocal: function(player){
+        playerArr=JSON.parse(localStorage.playerData)
+        playerArr.push(player)
+        localStorage.playerData=JSON.stringify(playerArr)
+    },
+    
+    sortPlayer: function(){
+        this.addLocal(this.playerDataCollect())
+        playerArr=JSON.parse(localStorage.playerData)
+        playerArr.sort(function(a, b){return (b.level-a.level)})
+        playerArr.sort(function(a, b){if(a.level==b.level){return (a.time-b.time)}})
+        return(playerArr)
+    },
+    
+    addLeaderboardData: function(){
+        playerArr=this.sortPlayer()
+        for(i=1;i<=playerArr.length&&i<=5;i++){
+            document.querySelector("#no"+i+"-name").innerHTML = playerArr[i-1].name
+            document.querySelector("#no"+i+"-time").innerHTML = playerArr[i-1].time
+            document.querySelector("#no"+i+"-level").innerHTML = playerArr[i-1].level
+        }
+    },
+    
+    addCurrentData: function(){
+        var currentPosition = playerArr.findIndex(function(a){if(a.playerID==localStorage.numberPlayer){return(a)}})
+        document.querySelector("#current-no").innerHTML = currentPosition+1
+        document.querySelector("#curren-name").innerHTML = playerArr[currentPosition].name
+        document.querySelector("#curren-time").innerHTML = playerArr[currentPosition].time
+        document.querySelector("#curren-level").innerHTML = playerArr[currentPosition].level
     }
 }
 AppController.start()
+LogicController.addLeaderboardData()
 

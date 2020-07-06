@@ -8,10 +8,20 @@
 
     <body>
         <div class="header-container">
+            <input type="text" id="username" placeholder="Enter your name">
+            <button class="submitName">Submit</button>
             <h1>Card Flip Game</h1>
+            <p>Player: <span class="name"></span></p>
             <p>Level: <span class="level">1</span></p>
-            <p>Time left: <span class="time">120</span></p>
-            <button class="new-game">New Game</button>
+            <p>Time left: <span class="time">300</span></p>
+            <div class="button-container">
+                <p class="instruction">Enter your name to start</p>
+                <div class="game-button hidden">
+                    <button class="give-up">Give Up</button>
+                    <button class="new-game">New Game</button>
+                    <button class="open-leaderboard">Leaderboard</button>
+                </div>
+            </div>
         </div>
         <div class="gameplay-container">
             <div class="play-area">
@@ -177,6 +187,61 @@
                 </div>
             </div>
         </div>
+        <div class="leaderboard">
+            <div class="header-leaderboard">
+                <div class="title">
+                    <p>LEADERBOARD</p>
+                </div>
+                <button class="closeButton">&times;</button>
+            </div>
+            <div class="leaderboard-container">
+                <table>
+                    <tr class="table-name">
+                        <td class="no">Rank</td>
+                        <td>Name</td>
+                        <td>Time</td>
+                        <td>Level</td>
+                    </tr>
+                    <tr>
+                        <td class="no" id="no1">1</td>
+                        <td id="no1-name"></td>
+                        <td id="no1-time"></td>
+                        <td id="no1-level"></td>
+                    </tr>
+                    <tr>
+                        <td class="no" id="no2">2</td>
+                        <td id="no2-name"></td>
+                        <td id="no2-time"></td>
+                        <td id="no2-level"></td>
+                    </tr>
+                    <tr>
+                        <td class="no" id="no3">3</td>
+                        <td id="no3-name"></td>
+                        <td id="no3-time"></td>
+                        <td id="no3-level"></td>
+                    </tr>
+                    <tr>
+                        <td class="no" id="no4">4</td>
+                        <td id="no4-name"></td>
+                        <td id="no4-time"></td>
+                        <td id="no4-level"></td>
+                    </tr>
+                    <tr>
+                        <td class="no" id="no5">5</td>
+                        <td id="no5-name"></td>
+                        <td id="no5-time"></td>
+                        <td id="no5-level"></td>
+                    </tr>
+                    <tr class="current-rank">
+                        <td class="no" id="current-no"></td>
+                        <td id="curren-name"></td>
+                        <td id="curren-time"></td>
+                        <td id="curren-level"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
     </body>
     <script src="app.js" > </script>
 </html>
